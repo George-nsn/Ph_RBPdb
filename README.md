@@ -1,12 +1,11 @@
 # phRBP —— 噬菌体尾部受体结合蛋白数据库
 
-> **公开仓库说明（2026-11-15）**
-> 本仓库是 `phrbp/` 数据库 v1.0 的**数据发布版**：主表（xlsx / TSV）、序列 FASTA、构建说明与早期样例。
-> 按发布约定，**建库脚本 `scripts/` 未随本仓库公开**；因此下文 §9「复现路径」、§10「目录内容」中列出的脚本，以及 `../tools/` 与服务器工作目录，均为本地工作区的流程留痕，不是本仓库内可直接运行的内容。
-> 数据文件与本地 `phrbp/` 完全一致，未做修改。
+> **公开仓库说明（2026-11-20）**
+> 本仓库是 `phrbp/` v1.1 的**数据发布版**：主表（xlsx / TSV）、序列 FASTA 与构建说明。按发布约定，**建库脚本 `scripts/` 未随本仓库公开**；README 中 `../tools/`、服务器工作目录等均为本地流程留痕，不是仓库内可直接运行的内容。
+> 数据文件与本地 `phrbp/` 一致，未做修改。
 
-
-> **版本 v1.0｜2026-11-15**
+> **版本 v1.1｜2026-11-20**
+> 2026-11-20 增补：29 条文献 curated 正样本与库做 95% 双向覆盖去冗余（5 条完全一致、**8 条 ≥95% 同源跳过**），**16 条新增入库**；同日按 A 方案**摘除 12 条 gp38 装配伴侣**（`phRBP_04_00885`–`00895`、`phRBP_01_21356`）。当前 **43,384 条**。正文中标注“43,366 基线”的覆盖率数字尚未逐项重算；凡“当前库”一律以 43,384 为准。
 > 本文档只讲一件事：**这份库是怎么来的**。写作口径按要求做了归并——关键词检索是**一次检索**、外部补充数据是**一次收集**、结构域注释是**全量注释**，不再叙述历史上分轮补做的过程（过程留痕见 `../temp/archive_2026-11-14/`）。
 
 ---
@@ -15,8 +14,8 @@
 
 | 项 | 内容 |
 |---|---|
-| 记录数 | **43,366** |
-| 列数 | 30 |
+| 记录数 | **43,384** |
+| 列数 | 31 |
 | 收录范围 | **P_RBP（宿主识别蛋白）+ W_other_tail（泛称尾部蛋白）**。Z / N1 / N2 / N3 / N4 一律不进 |
 | 序列 | `rbp_db.fasta`，表头已替换为库内 ID |
 | 主表 | `index.xlsx`（4 个工作表：`index` / `类型码` / `说明` / `数据集构成`）、`rbp_db_index.tsv` |
@@ -28,16 +27,16 @@
 
 | 码 | 类型 | 判定依据 | 条数 |
 |---|---|---|---|
-| **01** | tail fiber | PHROG 家族名直接判定为尾丝 | 21,355 |
+| **01** | tail fiber | PHROG 家族名直接判定为尾丝 | 21,363 |
 | **02** | tail spike | 家族名 tail spike / tailspike，且无多糖酶域 | 6,879 |
-| **03** | depolymerase | 有多糖裂解/水解域，或名称含 depolymerase / lyase / sialidase 等 | 2,708 |
-| **04** | receptor | receptor / host specificity / host recognition / adhesin | 882 |
+| **03** | depolymerase | 有多糖裂解/水解域，或名称含 depolymerase / lyase / sialidase 等 | 2,714 |
+| **04** | receptor | receptor / host specificity / host recognition / adhesin | 884 |
 | **05** | collar fiber | 颈环纤维（collar 与 fiber 共现） | 1,530 |
 | **06** | fiber_by_domain | 只有纤维域或识别域证据，家族名未直接指明 | 2,215 |
 | **09** | W_tail_domain | 泛称 tail，但带尾部结构域 | 1,761 |
-| **10** | W_no_domain | 泛称 tail，且**无任何 Pfam 域** | 4,061 |
+| **10** | W_no_domain | 泛称 tail，且**无任何 Pfam 域** | 4,063 |
 | **11** | W_other_domain | 泛称 tail，域全部与尾部无关 | 1,975 |
-| | | **合计** | **43,366** |
+| | | **合计** | **43,384** |
 
 > 06–08 空号，预留给后续细分（如把 06 拆成"识别域"与"纤维重复域"）。
 
@@ -50,7 +49,7 @@ flowchart TD
     A["Step 1 数据收集<br/>一次检索 + 一次外源并入"] --> B["Step 2 去冗余<br/>95% 同一性聚簇"]
     B --> C["Step 3 全量注释<br/>PHROG 38,880 + Pfam-A 53,275"]
     C --> D["Step 4 分类定性<br/>七类 → 类型码"]
-    D --> E["库表生成<br/>phRBP 43,366"]
+    D --> E["库表生成<br/>phRBP 43,384"]
 
     subgraph S1["Step 1 输入"]
         A1["PhageScope 26 个源<br/>71,488,751 条蛋白注释"]
@@ -202,7 +201,7 @@ hmmsearch --domtblout <out>.domtbl -E 1e-5 --domE 1e-5 --cpu 20 --noali <hmm> <s
 |---|---|---|---|
 | 主池 300,193 | 86.81% | 62.16% | — |
 | TailspikeDB 8,084 | **99.8%** | **96.9%** | 85.1% |
-| 最终库 43,366 | — | **70.9%** | 34.6%（14,984） |
+| 最终库 43,384 | — | **70.9%**（43,366 基线） | 34.6%（14,984；43,366 基线） |
 
 > Pfam 侧 29.1% 无域是真实情况：宏基因组来源的短片段蛋白与全新折叠家族本就落在 Pfam 覆盖之外。这部分在库中由 `10_ W_no_domain` 单列，不混入有域记录。
 
@@ -264,26 +263,26 @@ TAILNAME = re.compile(r'tail|fib(er|re)|spike|Phage_RBD|baseplate|sheath'
 | N1_skeleton | 483 | ❌ | — |
 | N3_infection_exec | 417 | ❌ | — |
 
-去冗余后取 P_RBP 35,569 + W_other_tail 7,797 = **43,366**，即本库全体。
+去冗余后取 P_RBP **35,587** + W_other_tail 7,797 = **43,384**，即本库全体。其中 16 条为 2026-11-20 文献新增，12 条 gp38 已按 A 方案摘除。
 
 ---
 
-## 七、字段字典（30 列）
+## 七、字段字典（31 列）
 
 | # | 列名 | 来源 | 说明 |
 |---|---|---|---|
 | 1 | `rbp_id` | 生成 | `phRBP_<类型码>_<5 位序号>` |
 | 2–3 | `type_code` / `type_name` | 生成 | 见 §1.1 |
 | 4 | `original_id` | 原始注释表 | 原名，可反查源库 |
-| 5 | `source_db` | 生成 | `PhageScope`（36,517）/ `TailspikeDB`（6,849） |
-| 6 | `source_pipeline` | 生成 | `keyword+PHROG` / `TSPDB` |
+| 5 | `source_db` | 生成 | `PhageScope`（36,517）/ `TailspikeDB`（6,849）/ `Literature`（16） |
+| 6 | `source_pipeline` | 生成 | `keyword+PHROG` / `TSPDB` / `curated-literature` |
 | 7 | `genome_id` | PhageScope 注释表 `Phage_ID` | 基因组归属 |
 | 8 | `votu_id` | vOTU members 表 | 病毒簇归属 |
 | 9 | `checkv_quality` | vOTU members 表 | Complete / High / Medium / Low-quality |
 | 10 | `votu_size` | vOTU members 表 | 簇内基因组数 |
 | 11 | `host_species` | TSPDB header + PhReD 映射 | 宿主物种 |
-| 12 | `receptor_type` | PhReD 映射 | 受体类型（自由文本） |
-| 13 | `receptor_source` | PhReD | 标签来源蛋白 |
+| 12 | `receptor_type` | PhReD 映射 | 受体类型（PhReD 原始自由文本；取自 `phred_rbp.faa` 未截断 header） |
+| 13 | `receptor_source` | PhReD | 标签来源蛋白（`PhReD:<PhReD accession>`） |
 | 14 | `eop_value` | — | **当前为空**（无定量 EOP 数据） |
 | 15–16 | `class` / `subtype` | 分类流水线 | 七类与子类 |
 | 17 | `length` | 序列 | aa |
@@ -296,6 +295,7 @@ TAILNAME = re.compile(r'tail|fib(er|re)|spike|Phage_RBD|baseplate|sheath'
 | 28 | `cluster_size` | 去冗余簇表 | 簇内成员数 |
 | 29 | `cluster_vote_frac` | 去冗余簇表 | 簇内类别一致比例 |
 | 30 | `is_gold` | 生成 | 1 = TailspikeDB 金标准（6,849 条） |
+| 31 | `lit_annot` | 文献 | 文献给出的功能注释；当前仅补在 PHROG 注释为 unknown 的 2 条 curated 条目（`phRBP_10_04062`、`phRBP_10_04063`） |
 
 ---
 
@@ -305,7 +305,7 @@ TAILNAME = re.compile(r'tail|fib(er|re)|spike|Phage_RBD|baseplate|sheath'
 |---|---|---|
 | `genome_id` / `votu_id` | **84.2%**（36,517） | 非 TSPDB 部分**全覆盖**；TSPDB 来自 GenBank CDS，无 PhageScope 基因组归属 |
 | `host_species` | 17.4%（7,544） | 主要来自 TSPDB header 与 PhReD 映射 |
-| `receptor_type` | 6.2%（2,674） | PhReD 映射池内 13,610 条，但与 43,366 个**簇代表**只有 2,674 重叠 |
+| `receptor_type` | 6.2%（2,674） | PhReD 映射池内 13,610 条，与 43,366 个**簇代表**只有 2,674 重叠（43,384 版未逐项重算）。⚠️ 现表曾从 m8 截断 query 取值，只剩 49 个残片；已改为回连 `phred_rbp.faa` 原始 header（672 个 accession → 78 种受体文本、30 种宿主文本，2026-11-18 修复脚本；**现表尚未重建**） |
 | `eop_value` | **0%** | 无数据，留空列占位 |
 
 **三个已知缺口，按优先级**：
@@ -341,7 +341,7 @@ phrbp/
 ├── README.md              本文档
 ├── index.xlsx             主表（4 页：index / 类型码 / 说明 / 数据集构成）
 ├── rbp_db_index.tsv       同内容 TSV，供命令行处理
-├── rbp_db.fasta           43,366 条序列，表头 = rbp_id
+├── rbp_db.fasta           43,384 条序列，表头 = rbp_id
 ├── scripts/
 │   ├── build_rbp_db.py    分类映射 + 建索引 + 写 fasta
 │   ├── mkxlsx_full.py     TSV → xlsx（含格式、筛选、四页）
@@ -361,6 +361,6 @@ phrbp/
 | 收集 | 300,193 + TSPDB 8,084 | 308,277 |
 | 去冗余 | 簇代表 | 98,535 |
 | 分类 | 池内七类 | 91,764 |
-| **导出** | **P_RBP + W_other_tail** | **43,366（本库）** |
+| **导出** | **P_RBP + W_other_tail** | **43,384（本库）** |
 
 若主数据集的分类口径更新（例如 `collar_fiber` 归回骨架），本库需同步重建：重跑 `scripts/build_rbp_db.py` 即可，索引号会按类型码重新编号——**旧 ID 不稳定，对外引用须连同 `original_id` 一起给出**。
