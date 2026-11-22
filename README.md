@@ -5,7 +5,7 @@
 > 数据文件与本地 `phrbp/` 一致，未做修改。
 
 > **版本 v1.3｜2026-11-22**
-> 2026-11-22 增补两批：Q2 atlas 合并表 v2 中 **124 条新 RBP**（62 fiber / 32 W_tail_domain / 30 W_no_domain）同步进主库；随后把 43 条 atlas clean-merge 行按唯一序列拆成 **42 条新 RBP**（2 fiber / 32 receptor / 8 fiber_by_domain）。`rbp_db_index.tsv`、`rbp_db.fasta`、`index.xlsx` 与 `rbp_to_host` 均已追加；主库由 43,384 → 43,508 → **43,550 条**。新增编号接全库各类型最大号：`phRBP_01_21365–21428`、`phRBP_04_00896–00927`、`phRBP_06_02216–02223`、`phRBP_09_01762–01793`、`phRBP_10_04064–04093`。原 43,384 条记录及其 ID 未改动。
+> 2026-11-22 增补两批：Q2 atlas 合并表 v2 中 **124 条新 RBP**（62 fiber / 32 W_tail_domain / 30 W_no_domain）同步进主库；随后把 43 条 atlas clean-merge 行按 source 记录拆成 **42 条新 RBP**（42 条记录对应 34 条不同序列；同一序列的不同噬菌体记录仍各给独立 ID）（2 fiber / 32 receptor / 8 fiber_by_domain）。`rbp_db_index.tsv`、`rbp_db.fasta`、`index.xlsx` 与 `rbp_to_host` 均已追加；主库由 43,384 → 43,508 → **43,550 条**。新增编号接全库各类型最大号：`phRBP_01_21365–21428`、`phRBP_04_00896–00927`、`phRBP_06_02216–02223`、`phRBP_09_01762–01793`、`phRBP_10_04064–04093`。原 43,384 条记录及其 ID 未改动。
 >
 > **版本 v1.2｜2026-11-22**
 > 第一批 atlas 124 条新 RBP 入库，主库 43,384 → 43,508；本版记录数与类型页已被 v1.3 取代，保留作历史。
